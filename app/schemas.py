@@ -1,4 +1,6 @@
-from marshmallow import Schema
+import datetime
+
+from marshmallow import Schema, fields
 
 
 class Note:
@@ -11,4 +13,8 @@ class Note:
 
 class Notes:
     class POST(Schema):
-        pass
+        favourite = fields.Boolean(default=False)
+        content = fields.String()
+        todos = fields.List()
+        images = fields.List()
+        last_update = fields.DateTime(default=datetime.datetime.utcnow())
