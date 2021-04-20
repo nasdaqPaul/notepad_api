@@ -1,30 +1,33 @@
-from flask_jwt_extended import jwt_required
 from flask_restful import Resource
+from flask import request
+from app.models import Note as NoteModel
+from app.schemas import Note as NoteSchema
 
 
 class Note(Resource):
-    @jwt_required()
+
     def get(self):
-        pass
+        return 'Get on /Note'
 
-    @jwt_required()
     def delete(self):
-        pass
+        return 'Delete on /Note'
 
-    @jwt_required()
     def put(self):
-        pass
+        return 'Put on /Note'
 
-    @jwt_required()
     def patch(self):
-        pass
+        return 'Patch on /Note'
 
 
 class Notes(Resource):
-    @jwt_required()
-    def get(self):
-        pass
+    schema = NoteSchema()
 
-    @jwt_required()
+    def get(self):
+        return self.schema.dump(NoteModel.objects, many=True)
+
     def post(self):
-        pass
+        post = self.schema.load(request.get_json())
+        post_object = NoteModel(**post)
+        print(post)
+
+        return 'Post on /Notes'
