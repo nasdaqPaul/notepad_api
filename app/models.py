@@ -20,27 +20,6 @@ class User(Document):
     def check_password(self, password):
         return check_password_hash(self.password, password)
 
-    def save(
-            self,
-            force_insert=False,
-            validate=True,
-            clean=True,
-            write_concern=None,
-            cascade=None,
-            cascade_kwargs=None,
-            _refs=None,
-            save_condition=None,
-            signal_kwargs=None,
-            **kwargs
-    ):
-        try:
-            super(User, self).save(force_insert=force_insert, validate=validate, clean=clean,
-                                   write_concern=write_concern, cascade=cascade, cascade_kwargs=cascade_kwargs,
-                                   _refs=_refs, save_condition=save_condition, signal_kwargs=signal_kwargs, **kwargs)
-        except NotUniqueError as e:
-            print(dir(e))
-            raise BadRequest(e.messages)
-
 
 class Todo(EmbeddedDocument):
     title = StringField(required=True, max_length=240)

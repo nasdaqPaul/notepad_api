@@ -1,5 +1,6 @@
-from flask_restful import Resource
 from flask import request
+from flask_restful import Resource
+
 from app.models import Note as NoteModel
 from app.schemas import Note as NoteSchema
 
