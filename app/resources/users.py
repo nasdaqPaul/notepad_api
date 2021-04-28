@@ -20,7 +20,7 @@ class Users(Resource):
             print(e)
             error = {
                 'error': 'NotUniqueError',
-                'messages': f"Email address '{new_user.email_address}' is not available"
+                'message': f"Email address '{new_user.email_address}' is not available"
             }
             raise BadRequest(error)
         return 'Post on /auth/register'

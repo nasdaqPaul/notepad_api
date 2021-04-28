@@ -1,6 +1,7 @@
+import datetime
+
 from mongoengine import Document, StringField, EmailField, ReferenceField, BooleanField, ListField, DateTimeField, \
-    EmbeddedDocumentListField, EmbeddedDocument, CASCADE, NotUniqueError
-from werkzeug.exceptions import BadRequest
+    EmbeddedDocumentListField, EmbeddedDocument, CASCADE
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
@@ -9,7 +10,6 @@ class User(Document):
     last_name = StringField(required=True, max_length=240, db_field='lastName')
     email_address = EmailField(required=True, max_length=240, unique=True, db_field='emailAddress')
     password = StringField(required=True, max_length=240)
-
     meta = {
         'collection': 'users'
     }
@@ -27,10 +27,10 @@ class Todo(EmbeddedDocument):
 
 
 class Note(Document):
-    author = ReferenceField('User', required=True, reverse_delete_rule=CASCADE)
+    author = ReferenceField(User, required=True, reverse_delete_rule=CASCADE)
     favourite = BooleanField(default=False)
     images = ListField(StringField(max_length=240))
-    last_update = DateTimeField(db_field='lastUpdate')
+    last_update = DateTimeField(db_field='lastUpdate', default=datetime.datetime.utcnow())
     todos = EmbeddedDocumentListField('Todo')
     content = StringField(default='')
 
